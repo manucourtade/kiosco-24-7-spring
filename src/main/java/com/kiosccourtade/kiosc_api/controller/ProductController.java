@@ -4,6 +4,8 @@ import com.kiosccourtade.kiosc_api.dto.ProductDTO;
 import com.kiosccourtade.kiosc_api.model.Category;
 import com.kiosccourtade.kiosc_api.model.Product;
 import com.kiosccourtade.kiosc_api.service.ProductService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +15,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     @GetMapping
     public ResponseEntity<List<Product>> getProducts() {
@@ -31,7 +33,7 @@ public class ProductController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Product> patchProduct(@PathVariable Long id,
+    public ResponseEntity<Product> patchProduct(@Valid @PathVariable Long id,
                                                  @RequestBody ProductDTO dto) {
         Optional<Product> product =
                 productService.updateProduct(id, dto.name(), dto.price(), dto.stock(), dto.categoryId());
@@ -40,7 +42,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<Product> putProduct(@PathVariable Long id,
+    public  ResponseEntity<Product> putProduct(@Valid @PathVariable Long id,
                                                @RequestBody ProductDTO dto) {
         Optional<Product> product =
                 productService.updateAllProduct(id, dto.name(), dto.price(), dto.stock(), dto.categoryId());
@@ -49,7 +51,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> postProduct(@RequestBody ProductDTO dto) {
+    public ResponseEntity<Product> postProduct(@Valid @RequestBody ProductDTO dto) {
         Product product = productService.addProduct(dto.name(), dto.price(), dto.stock(), dto.categoryId());
         return ResponseEntity.status(201).body(product);
     }

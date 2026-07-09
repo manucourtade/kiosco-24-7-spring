@@ -1,7 +1,16 @@
 package com.kiosccourtade.kiosc_api.dto;
 
-import com.kiosccourtade.kiosc_api.model.Category;
+import jakarta.validation.constraints.*;
 
-public record ProductDTO(Long id, String name,
-                         Double price, Integer stock, Long categoryId) {
+public record ProductDTO(Long id,
+                         @NotBlank
+                         String name,
+
+                         @Positive
+                         Double price,
+                         @PositiveOrZero
+                         Integer stock,
+
+                         @Positive
+                         Long categoryId) {
 }

@@ -1,4 +1,9 @@
 package com.kiosccourtade.kiosc_api.dto;
 
-public record CategoryDTO (Long id, String name) {
+import jakarta.validation.constraints.NotBlank;
+
+public record CategoryDTO (Long id,
+
+                           @NotBlank
+                           String name) {
 }

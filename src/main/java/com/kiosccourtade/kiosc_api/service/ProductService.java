@@ -5,6 +5,7 @@ import com.kiosccourtade.kiosc_api.model.Product;
 import com.kiosccourtade.kiosc_api.repository.CategoryRepository;
 import com.kiosccourtade.kiosc_api.repository.ProductRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    @Autowired
-    ProductRepository productRepository;
-
-    @Autowired
-    CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     public Product addProduct(String name, Double price, Integer stock, Long categoryId) {
         Product product = new Product();
