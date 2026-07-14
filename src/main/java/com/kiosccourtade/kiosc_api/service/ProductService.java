@@ -1,5 +1,6 @@
 package com.kiosccourtade.kiosc_api.service;
 
+import com.kiosccourtade.kiosc_api.exception.NotFoundException;
 import com.kiosccourtade.kiosc_api.model.Category;
 import com.kiosccourtade.kiosc_api.model.Product;
 import com.kiosccourtade.kiosc_api.repository.CategoryRepository;
@@ -34,43 +35,48 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+
     public Optional<Product> getById(Long id) {
         return productRepository.findById(id);
     }
 
-    public Optional<Product> deleteById(Long id) {
-        Optional<Product> product = this.getById(id);
-        product.ifPresent(p -> productRepository.deleteById(id));
+    public Product deleteById(Long id) {
+        Product product = this.getById(id)
+                .orElseThrow(() -> new NotFoundException("Product", id));
+        productRepository.deleteById(id);
         return product;
     }
 
-    public Optional<Product> updateProduct(Long id, String name, Double price,
-                                           Integer stock, Long categoryId) {
-        Optional<Product> product = this.getById(id);
-        product.ifPresent(p -> {
-            if (name != null) p.setName(name);
-            if (price != null) p.setPrice(price);
-            if (stock != null) p.setStock(stock);
-            if (categoryId != null) {
-                Category category = categoryRepository.findById(categoryId).orElse(null);
-                p.setCategory(category);
-            }
-            productRepository.save(p);
-        });
-        return product;
+    public Product updateProduct(Long id, String name, Double price,
+                                 Integer stock, Long categoryId) {
+        Product product = this.getById(id)
+                .orElseThrow(() -> new NotFoundException("Product", id));
+
+        if (name != null) product.setName(name);
+        if (price != null) product.setPrice(price);
+        if (stock != null) product.setStock(stock);
+        if (categoryId != null) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new NotFoundException("Category", categoryId));
+            product.setCategory(category);
+        }
+
+        return productRepository.save(product);
     }
 
-    public Optional<Product> updateAllProduct(Long id, String name, Double price,
-                                              Integer stock, Long categoryId) {
-        Optional<Product> product = this.getById(id);
-        product.ifPresent(p -> {
-            p.setName(name);
-            p.setPrice(price);
-            p.setStock(stock);
-            Category category = categoryRepository.findById(categoryId).orElse(null);
-            p.setCategory(category);
-            productRepository.save(p);
-        });
-        return  product;
+    public Product updateAllProduct(Long id, String name, Double price,
+                                    Integer stock, Long categoryId) {
+        Product product = this.getById(id)
+                .orElseThrow(() -> new NotFoundException("Product", id));
+
+        product.setName(name);
+        product.setPrice(price);
+        product.setStock(stock);
+
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new NotFoundException("Category", categoryId));
+        product.setCategory(category);
+
+        return productRepository.save(product);
     }
 }

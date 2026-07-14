@@ -13,4 +13,10 @@ public record ProductDTO(Long id,
 
                          @Positive
                          Long categoryId) {
+    @Override
+    public String toString() {
+        return "ProductDTO{name=%s, price=%s, stock=%s, categoryId=%s}"
+                .formatted(name(), price(), stock(), categoryId());
+    }
 }
+

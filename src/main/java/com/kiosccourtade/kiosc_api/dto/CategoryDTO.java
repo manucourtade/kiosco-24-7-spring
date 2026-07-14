@@ -6,4 +6,10 @@ public record CategoryDTO (Long id,
 
                            @NotBlank
                            String name) {
+
+    @Override
+    public String toString() {
+        return "ProductDTO{name=%s}"
+                .formatted(name());
+    }
 }

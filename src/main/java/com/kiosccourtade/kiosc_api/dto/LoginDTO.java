@@ -10,4 +10,10 @@ public record LoginDTO
                 @NotBlank
                 String password
         )
-{}
+{
+    @Override
+    public String toString() {
+        return "ProductDTO{username=%s, password=%s}"
+                .formatted(username(), password());
+    }
+}

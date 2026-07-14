@@ -34,20 +34,17 @@ public class ProductController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Product> patchProduct(@Valid @PathVariable Long id,
-                                                 @RequestBody ProductDTO dto) {
-        Optional<Product> product =
-                productService.updateProduct(id, dto.name(), dto.price(), dto.stock(), dto.categoryId());
-        return product.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                                                @RequestBody ProductDTO dto) {
+        Product product = productService.updateProduct(id, dto.name(), dto.price(), dto.stock(), dto.categoryId());
+        return ResponseEntity.ok(product);
     }
 
     @PutMapping("/{id}")
     public  ResponseEntity<Product> putProduct(@Valid @PathVariable Long id,
                                                @RequestBody ProductDTO dto) {
-        Optional<Product> product =
+        Product product =
                 productService.updateAllProduct(id, dto.name(), dto.price(), dto.stock(), dto.categoryId());
-        return product.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(product);
     }
 
     @PostMapping
@@ -58,7 +55,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
-        Optional<Product> product = productService.deleteById(id);
-        return ResponseEntity.of(product);
+        Product product = productService.deleteById(id);
+        return ResponseEntity.ok(product);
     }
 }

@@ -11,4 +11,9 @@ public record RegisterDTO(
 
         @NotBlank
         String role){
+        @Override
+        public String toString() {
+                return "ProductDTO{username=%s, password=%s, role=%s}"
+                        .formatted(username(), password(), role());
+        }
 }

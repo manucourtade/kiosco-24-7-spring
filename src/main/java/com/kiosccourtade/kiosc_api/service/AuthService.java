@@ -1,5 +1,6 @@
 package com.kiosccourtade.kiosc_api.service;
 
+import com.kiosccourtade.kiosc_api.exception.UserAlreadyExistsException;
 import com.kiosccourtade.kiosc_api.model.User;
 import com.kiosccourtade.kiosc_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +22,15 @@ public class AuthService {
         String password2 = passwordEncoder.encode(password);
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
-            String token = jwtService.generateToken(username, role);
             User user1 = new User();
             user1.setUsername(username);
             user1.setPassword(password2);
             user1.setRole(role);
+            String token = jwtService.generateToken(username, role);
             userRepository.save(user1);
             return token;
         }
-        return null;
+        throw new UserAlreadyExistsException();
 
     }
 
