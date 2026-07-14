@@ -1,5 +1,6 @@
 package com.kiosccourtade.kiosc_api.service;
 
+import com.kiosccourtade.kiosc_api.exception.UnauthorizedException;
 import com.kiosccourtade.kiosc_api.exception.UserAlreadyExistsException;
 import com.kiosccourtade.kiosc_api.model.User;
 import com.kiosccourtade.kiosc_api.repository.UserRepository;
@@ -36,9 +37,9 @@ public class AuthService {
 
     public String login (String username, String password) {
         Optional<User> user = userRepository.findByUsername(username);
-        if (user.isEmpty()) return null;
+        if (user.isEmpty()) throw new UnauthorizedException();
         if (passwordEncoder.matches(password, user.get().getPassword()))
             return jwtService.generateToken(user.get().getUsername(), user.get().getRole());
-        return null;
+        throw new UnauthorizedException();
     }
 }

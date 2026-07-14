@@ -25,7 +25,7 @@ public class ProductService {
         product.setName(name);
         product.setPrice(price);
         product.setStock(stock);
-        Category category = categoryRepository.findById(categoryId).orElse(null);
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new NotFoundException("Category", categoryId));
         product.setCategory(category);
 
         return productRepository.save(product);

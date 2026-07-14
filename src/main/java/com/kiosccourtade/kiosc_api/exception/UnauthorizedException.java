@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 public class UnauthorizedException extends RuntimeException implements ApiException {
     public UnauthorizedException() {
 
-        super("The user is not AUTHORIZED, please log in at /auth/login");
+        super("The user is not AUTHORIZED/PASSWORD not match, please log in at /auth/login");
     }
 
     @Override
