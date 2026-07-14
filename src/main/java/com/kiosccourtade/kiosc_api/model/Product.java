@@ -17,9 +17,16 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "Name")
     private String name;
+
+    @Column(name = "Price")
     private Double price;
+
+    @Column(name = "Stock")
     private Integer stock;
+
+    @Column(name = "Category_ID")
     @ManyToOne
     private Category category;
 
