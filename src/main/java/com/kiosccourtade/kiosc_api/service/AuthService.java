@@ -7,6 +7,7 @@ import com.kiosccourtade.kiosc_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,7 +18,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public String register(String username, String password, String role) {
         String password2 = passwordEncoder.encode(password);
